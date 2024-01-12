@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+  <title>Помилка</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+  <div class="content-wrapper content">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+                            <span class="display-3 text-danger">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            </span>
+          <h2 class="display-3 text-black">Помилка</h2>
+
+            <div th:if="${errorsMessages!=null}">
+                <div th:each="message: ${errorsMessages.getErrors()}">
+                    <div class="alert alert-danger" role="alert" th:text="${message}">
+
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${infoMessages!=null}">
+                <div th:each="message: ${infoMessages.getMessages()}">
+                    <div class="alert alert-success" role="alert" th:text="${message}">
+
+                    </div>
+                </div>
+            </div>
+
+          <p><a href="javascript:history.back()" class="btn btn-md height-auto px-4 py-3 btn-primary">Назад</a></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

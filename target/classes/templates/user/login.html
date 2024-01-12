@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragments/layout}">
+<head>
+  <title>Кабінет</title>
+</head>
+
+<div layout:fragment="content" th:remove="tag">
+  <div class="content-wrapper content">
+
+    <div class="container">
+
+
+      <div th:if="${errorsMessages!=null}">
+        <div th:each="message: ${errorsMessages.getErrors()}">
+          <div class="alert alert-danger" role="alert" th:text="${message}">
+
+          </div>
+        </div>
+      </div>
+
+      <div th:if="${infoMessages!=null}">
+        <div th:each="message: ${infoMessages.getMessages()}">
+          <div class="alert alert-success" role="alert" th:text="${message}">
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="text-center">
+        <h3>Увійдіть, щоб почати працювати в системі</h3>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col text-center" style="max-width: 500px;">
+
+
+          <form th:action="@{/login}" method="post" class="form-signin mt-5" >
+            <!-- Email input -->
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="username" name="username"
+                     autofocus required >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-user"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="input-group mb-3">
+              <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Увійти</button>
+
+            <!-- Register buttons -->
+            <div class="text-center">
+              <p>Ще не зареєстровані? <a href="/register">Зареєструватися</a></p>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+</body>
+</html>
