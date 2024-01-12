@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+tmp/
+monitor.mv.db
+monitor.trace.db
+monitor.trace.db.old
+logs/*
