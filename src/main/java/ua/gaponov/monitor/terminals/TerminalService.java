@@ -20,4 +20,9 @@ public class TerminalService {
     private List<Terminal> getAll(){
         return terminalRepository.findAllByOrderByArmId();
     }
+
+    public void save(TerminalDTO terminalDTO) {
+        Terminal terminal = terminalMapper.mapDtoToEntity(terminalDTO);
+        terminalRepository.save(terminal);
+    }
 }
