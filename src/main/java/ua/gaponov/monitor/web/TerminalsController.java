@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import ua.gaponov.monitor.terminals.TerminalDTO;
 import ua.gaponov.monitor.terminals.TerminalService;
 
@@ -27,5 +28,11 @@ public class TerminalsController {
         result.addObject("terminals", terminals);
         result.addObject("reloadTime", reloadPageInterval);
         return result;
+    }
+
+    @GetMapping("/scan")
+    public RedirectView getSearch(){
+        terminalService.search();
+        return new RedirectView("/terminals/list");
     }
 }

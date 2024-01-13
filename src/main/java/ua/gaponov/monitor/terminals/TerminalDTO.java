@@ -15,4 +15,5 @@ public class TerminalDTO {
     private String cashRegisterName;
     private String ipAddress;
     private String lastUpdate;
+    private boolean active;
 }

@@ -2,6 +2,7 @@ package ua.gaponov.monitor.terminals;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ua.gaponov.monitor.net.NetUtils;
 import ua.gaponov.monitor.utils.Mapper;
 
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class TerminalMapper implements Mapper<Terminal, TerminalDTO> {
         terminal.setCashRegisterName(source.getCashRegisterName());
         terminal.setIpAddress(source.getIpAddress());
         terminal.setLastUpdate(source.getLastUpdate());
+        terminal.setActive(NetUtils.pingAddress(terminal.getIpAddress()));
         return terminal;
     }
 
