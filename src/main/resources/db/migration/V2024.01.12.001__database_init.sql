@@ -21,8 +21,3 @@ insert into users
     (username, password, role, enabled)
 values
     ('admin', '$2a$12$h5zjEEFmeObLcRur8EIrreLsdeyW8dLniPEVy2OdNSNdU3HKdoNN6', 'ROLE_ADMIN', true);
-
-insert into terminals
-    (arm_id, shop_name, cash_register_name, ip_address)
-values
-    (8, 'Тестовий магазин', 'Тестова каса', '192.168.1.113');

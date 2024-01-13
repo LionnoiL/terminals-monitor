@@ -23,7 +23,8 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th style="width:100px;" scope="col">ID терміналу</th>
+                            <th style="width:150px;" scope="col">ПК в мережі</th>
+                            <th style="width:150px;" scope="col">ID терміналу</th>
                             <th style="width:300px;" scope="col">Магазин</th>
                             <th style="width:300px;"scope="col">Каса</th>
                             <th scope="col">Адреса</th>
@@ -33,6 +34,7 @@
                         <tbody>
                         <div th:each="terminal, iStat: ${terminals}">
                             <tr>
+                                <td th:text="${terminal.active}"></td>
                                 <td th:text="${terminal.armId}"></td>
                                 <td th:text="${terminal.shopName}"></td>
                                 <td th:text="${terminal.cashRegisterName}"></td>
