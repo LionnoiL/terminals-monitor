@@ -1,5 +1,6 @@
 package ua.gaponov.monitor.terminals;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.gaponov.monitor.net.AddressService;
@@ -24,6 +25,7 @@ public class TerminalService {
         return terminalRepository.findAllByOrderByArmId();
     }
 
+    @Transactional
     public void save(TerminalDTO terminalDTO) {
         Terminal terminal = terminalMapper.mapDtoToEntity(terminalDTO);
         terminalRepository.save(terminal);
@@ -40,6 +42,7 @@ public class TerminalService {
         System.out.println("search end");
     }
 
+    @Transactional
     private void checkAddressList(List<String> addressRange) {
         for (String address : addressRange) {
             TerminalInfo terminalInfo = NetUtils.getTerminalInfo("http://"+address+":5555/echo");
