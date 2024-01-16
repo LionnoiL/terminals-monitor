@@ -103,6 +103,19 @@
 
         </div>
         </form>
+
+        <div class="card m-3" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="card-header">
+                Виконати команду
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary m-1" th:onclick="|window.location.href='/terminals/${terminal.armId}/command?name=EXPORT';|">Вивантажити документи</button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
     <script>

@@ -14,6 +14,7 @@ import ua.gaponov.monitor.errors.InfoMessages;
 import ua.gaponov.monitor.errors.NotFoundException;
 import ua.gaponov.monitor.errors.ValidationException;
 import ua.gaponov.monitor.terminals.Terminal;
+import ua.gaponov.monitor.terminals.TerminalCommands;
 import ua.gaponov.monitor.terminals.TerminalDTO;
 import ua.gaponov.monitor.terminals.TerminalService;
 
@@ -100,5 +101,13 @@ public class TerminalsController {
         Terminal terminal = terminalService.getByArmId(id);
         terminalService.delete(terminal);
         return "redirect:/terminals/list";
+    }
+
+    @GetMapping("/{id}/command")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String getCommandTerminal(@PathVariable Long id, @RequestParam TerminalCommands name) {
+        Terminal terminal = terminalService.getByArmId(id);
+        terminalService.executeCommand(terminal, name);
+        return "redirect:/terminals/edit?id="+id;
     }
 }

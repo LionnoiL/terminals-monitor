@@ -74,4 +74,8 @@ public class TerminalService {
     public void delete(Terminal terminal) {
         terminalRepository.delete(terminal);
     }
+
+    public boolean executeCommand(Terminal terminal, TerminalCommands name) {
+        return false;
+    }
 }
