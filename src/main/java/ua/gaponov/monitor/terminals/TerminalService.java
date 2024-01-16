@@ -2,6 +2,7 @@ package ua.gaponov.monitor.terminals;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.gaponov.monitor.errors.NotFoundException;
 import ua.gaponov.monitor.net.AddressService;
@@ -14,6 +15,8 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class TerminalService {
 
+    @Value("${ip.address.ranges}")
+    private List<String> addressRanges;
     private final TerminalRepository terminalRepository;
     private final TerminalMapper terminalMapper;
     private final AddressService addressService;
@@ -43,9 +46,9 @@ public class TerminalService {
     }
 
     public void search() {
-        checkAddressList(addressService.getAddressRange("192.168.11."));
-        checkAddressList(addressService.getAddressRange("192.168.12."));
-        checkAddressList(addressService.getAddressRange("192.168.13."));
+        for (String networkNumber : addressRanges) {
+            checkAddressList(addressService.getAddressRange(networkNumber));
+        }
         System.out.println("search end");
     }
 
