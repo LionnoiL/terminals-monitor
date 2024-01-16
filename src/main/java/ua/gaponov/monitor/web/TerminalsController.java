@@ -3,6 +3,7 @@ package ua.gaponov.monitor.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,12 +40,14 @@ public class TerminalsController {
     }
 
     @GetMapping("/scan")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RedirectView getSearch(){
         terminalService.search();
         return new RedirectView("/terminals/list");
     }
 
     @GetMapping("/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView getEditTerminal(@RequestParam(value = "id") Long id) {
         ModelAndView result = new ModelAndView("terminals/edit");
         TerminalDTO terminal = terminalService.getTerminalDtoByArmId(id);
@@ -53,6 +56,7 @@ public class TerminalsController {
     }
 
     @PostMapping("/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String postUpdateTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
                                      @ModelAttribute("infoMessages") InfoMessages infoMessages,
                                            @ModelAttribute("terminal") TerminalDTO terminal) {
@@ -67,6 +71,7 @@ public class TerminalsController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView getCreateTerminal() {
         ModelAndView result = new ModelAndView("terminals/add");
         TerminalDTO terminal = new TerminalDTO();
@@ -75,6 +80,7 @@ public class TerminalsController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String postCreateTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
                                      @ModelAttribute("infoMessages") InfoMessages infoMessages,
                                      @ModelAttribute("terminal") TerminalDTO terminal) {
@@ -89,6 +95,7 @@ public class TerminalsController {
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String postDeleteTerminal(@RequestParam Long id) {
         Terminal terminal = terminalService.getByArmId(id);
         terminalService.delete(terminal);
