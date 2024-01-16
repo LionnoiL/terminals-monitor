@@ -35,11 +35,12 @@
       </div>
 
       <div class="row justify-content-center">
-        <div class="col text-center" style="max-width: 500px;">
+        <div class="col" style="max-width: 500px;">
 
 
           <form th:action="@{/login}" method="post" class="form-signin mt-5" >
             <!-- Email input -->
+            <label for="username">Ім'я</label>
             <div class="input-group mb-3">
               <input type="text" class="form-control" id="username" name="username"
                      autofocus required >
@@ -51,14 +52,15 @@
             </div>
 
             <!-- Password input -->
-            <div class="input-group mb-3">
-              <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required >
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-lock"></span>
+              <label for="password">Пароль</label>
+              <div class="input-group mb-3">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required >
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
                 </div>
               </div>
-            </div>
 
 
             <!-- Submit button -->

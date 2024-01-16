@@ -33,12 +33,13 @@
       </div>
 
       <div class="row justify-content-center">
-        <div class="col text-center" style="max-width: 500px;">
+        <div class="col" style="max-width: 500px;">
 
 
           <form th:action="@{/register}" method="post" class="form-signin mt-5" >
 
             <!-- Email input -->
+            <label for="username">Ім'я</label>
             <div class="input-group mb-3">
               <input type="text" class="form-control" id="username" name="username" placeholder="Ім'я" required>
               <div class="input-group-append">
@@ -49,6 +50,7 @@
             </div>
 
             <!-- Password input -->
+            <label for="password">Пароль</label>
             <div class="input-group mb-3">
               <input type="password" id="password" name="password" class="form-control" placeholder="Пароль">
               <div class="input-group-append">
