@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Редагування терміналу</title>
+    <title>Додавання терміналу</title>
 </head>
 
 <div layout:fragment="content" th:remove="tag">
@@ -43,31 +43,9 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-delete">
-        <div class="modal-dialog modal-lg">
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Видалити термінал?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Відмова</button>
-                    <button type="button" id="delete-button" th:attr="data-terminal-id=${terminal.armId}" class="btn btn-danger">Видалити</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
     <div class="content-wrapper content">
 
-        <form  action="/terminals/edit" method="post" th:object="${terminal}" id="edit-form">
-
-            <input type="text" class="form-control" id="id" name="id" th:field="${terminal.id}" hidden>
-            <input type="text" class="form-control" id="lastUpdate" name="lastUpdate" th:field="${terminal.lastUpdate}" hidden>
+        <form  action="/terminals/add" method="post" th:object="${terminal}" id="edit-form">
 
         <div class="row ml-auto mr-auto">
             <div class="col-md-12">
@@ -94,7 +72,6 @@
                     <button type="button" class="btn btn-primary m-1" onclick="window.location.href = '/';">До списку</button>
                 </div>
                 <div class="btn-group float-right" role="group">
-                    <button type="button" class="btn btn-danger m-1" data-toggle="modal" data-target="#modal-delete">Видалити</button>
                     <button type="button" class="btn btn-success m-1" data-toggle="modal" data-target="#modal-leave">Зберегти</button>
                 </div>
 
@@ -105,27 +82,8 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $("#save-button").click(function() {
-                $("#edit-form").submit();
-            });
-
-            $("#delete-button").click(function() {
-                var url = "/terminals/delete";
-
-                var terminalId = $(this).data("terminal-id");
-
-                var postData = {
-                    id: terminalId,
-                };
-
-                $.post(url, postData, function(response) {
-                    window.location.href = "/terminals/list";
-                })
-                .fail(function(error) {
-                    console.error("Error:", error.responseText);
-                });
-            });
+        $("#save-button").click(function() {
+          $("#edit-form").submit();
         });
     </script>
 
