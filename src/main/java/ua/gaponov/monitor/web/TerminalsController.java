@@ -49,7 +49,9 @@ public class TerminalsController {
 
     @GetMapping("/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView getEditTerminal(@RequestParam(value = "id") Long id) {
+    public ModelAndView getEditTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
+                                        @ModelAttribute("infoMessages") InfoMessages infoMessages,
+                                        @RequestParam(value = "id") Long id) {
         ModelAndView result = new ModelAndView("terminals/edit");
         TerminalDTO terminal = terminalService.getTerminalDtoByArmId(id);
         result.addObject("terminal", terminal);
@@ -105,14 +107,19 @@ public class TerminalsController {
 
     @GetMapping("/{id}/command")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getCommandTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
-                                     @PathVariable Long id, @RequestParam TerminalCommands name) {
+    public RedirectView getCommandTerminal(RedirectAttributes redirectAttributes,
+                                           @PathVariable Long id, @RequestParam TerminalCommands name) {
         Terminal terminal = terminalService.getByArmId(id);
         boolean ok = terminalService.executeCommand(terminal, name);
         if (!ok) {
-            errorsMessages.addError("Помилка виконання команди");
-            return "terminals/list";
+            ErrorMessages errorMessages = new ErrorMessages();
+            errorMessages.addError("Помилка виконання команди");
+            redirectAttributes.addFlashAttribute("errorsMessages", errorMessages);
+        } else {
+            InfoMessages infoMessages = new InfoMessages();
+            infoMessages.addMessage("Команда виконана");
+            redirectAttributes.addFlashAttribute("infoMessages", infoMessages);
         }
-        return "redirect:/terminals/edit?id="+id;
+        return new RedirectView("/terminals/edit?id=" + id);
     }
 }
