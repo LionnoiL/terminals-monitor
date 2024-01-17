@@ -79,6 +79,6 @@ public class TerminalService {
     }
 
     public boolean executeCommand(Terminal terminal, TerminalCommands name) {
-        return false;
+        return NetUtils.sendSimpleCommand("http://" + terminal.getIpAddress() + ":5555/command", name);
     }
 }

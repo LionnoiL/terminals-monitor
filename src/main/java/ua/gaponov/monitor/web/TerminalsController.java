@@ -105,9 +105,14 @@ public class TerminalsController {
 
     @GetMapping("/{id}/command")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getCommandTerminal(@PathVariable Long id, @RequestParam TerminalCommands name) {
+    public String getCommandTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
+                                     @PathVariable Long id, @RequestParam TerminalCommands name) {
         Terminal terminal = terminalService.getByArmId(id);
-        terminalService.executeCommand(terminal, name);
+        boolean ok = terminalService.executeCommand(terminal, name);
+        if (!ok) {
+            errorsMessages.addError("Помилка виконання команди");
+            return "terminals/list";
+        }
         return "redirect:/terminals/edit?id="+id;
     }
 }
