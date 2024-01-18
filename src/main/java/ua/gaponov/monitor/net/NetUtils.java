@@ -10,11 +10,13 @@ import ua.gaponov.monitor.terminals.TerminalCommands;
 import ua.gaponov.monitor.terminals.TerminalInfo;
 
 import java.net.InetAddress;
+import java.time.Duration;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NetUtils {
 
     static final RestTemplate restTemplate = new RestTemplate();
+    static final Duration timeout = Duration.ofSeconds(2);
 
     public static TerminalInfo getTerminalInfo(String url) {
         try {
@@ -26,7 +28,10 @@ public class NetUtils {
 
     public static boolean sendSimpleCommand(String url, TerminalCommands command) {
         try {
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, command.toString(), String.class);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,
+                    command.toString(),
+                    String.class,
+                    timeout.toMillis());
             HttpStatusCode statusCode = responseEntity.getStatusCode();
             int statusValue = statusCode.value();
 
