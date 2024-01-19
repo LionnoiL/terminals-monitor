@@ -2,6 +2,7 @@ package ua.gaponov.monitor.terminals;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.gaponov.monitor.errors.NotFoundException;
@@ -11,6 +12,7 @@ import ua.gaponov.monitor.net.NetUtils;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TerminalService {
@@ -46,10 +48,11 @@ public class TerminalService {
     }
 
     public void search() {
+        log.debug("start search");
         for (String networkNumber : addressRanges) {
             checkAddressList(addressService.getAddressRange(networkNumber));
         }
-        System.out.println("search end");
+        log.debug("end search");
     }
 
     @Transactional
@@ -60,7 +63,7 @@ public class TerminalService {
                 Terminal terminal = null;
                 try {
                     terminal = getByArmId(terminalInfo.getArmId());
-                } catch (NoSuchElementException e) {
+                } catch (NotFoundException e) {
                     terminal = new Terminal();
                 }
 

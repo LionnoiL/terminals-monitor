@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ua.gaponov.monitor.terminals.TerminalCommands;
@@ -15,7 +16,18 @@ import java.time.Duration;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NetUtils {
 
-    static final RestTemplate restTemplate = new RestTemplate();
+    private static final int TIMEOUT_IN_MILLISECONDS = 500; // Укажите нужный вам таймаут в миллисекундах
+
+    private static final RestTemplate restTemplate;
+
+    static {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(TIMEOUT_IN_MILLISECONDS);
+        requestFactory.setReadTimeout(TIMEOUT_IN_MILLISECONDS);
+
+        restTemplate = new RestTemplate(requestFactory);
+    }
+
     static final Duration timeout = Duration.ofSeconds(2);
 
     public static TerminalInfo getTerminalInfo(String url) {
