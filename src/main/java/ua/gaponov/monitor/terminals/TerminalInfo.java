@@ -21,11 +21,11 @@ public class TerminalInfo {
     @JsonProperty("last_update")
     private String lastUpdate;
     @JsonProperty("total_heap_size")
-    private String totalHeapSize;
+    private String totalHeapSize = "0";
     @JsonProperty("free_heap_size")
-    private String freeHeapSize;
+    private String freeHeapSize = "0";
     @JsonProperty("used_heap_size")
-    private String usedHeapSize;
+    private String usedHeapSize = "0";
 
     @Override
     public String toString() {
