@@ -34,6 +34,7 @@ public class NetUtils {
         try {
             return restTemplate.getForObject(url, TerminalInfo.class);
         } catch (RestClientException e) {
+            System.out.println(e);
             return null;
         }
     }

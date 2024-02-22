@@ -16,4 +16,7 @@ public class TerminalDTO {
     private String ipAddress;
     private String lastUpdate;
     private boolean active;
+    private Long totalHeapSize;
+    private Long freeHeapSize;
+    private Long usedHeapSize;
 }

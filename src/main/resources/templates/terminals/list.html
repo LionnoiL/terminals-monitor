@@ -47,6 +47,7 @@
                             <th style="width:300px;"scope="col">Каса</th>
                             <th scope="col">Адреса</th>
                             <th style="width:230px;" scope="col">Дата останнього оновлення</th>
+                            <th style="width:230px;" scope="col">Heap (max/used)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,6 +59,7 @@
                                 <td th:text="${terminal.cashRegisterName}"></td>
                                 <td><a th:href="@{/terminals/edit(id=${terminal.armId})}"><div  th:text="${terminal.ipAddress}"></div></a></td>
                                 <td th:text="${terminal.lastUpdate}"></td>
+                                <td th:text="${terminal.totalHeapSize} + '/' + ${terminal.usedHeapSize}"></td>
                             </tr>
                         </div>
                         </tbody>

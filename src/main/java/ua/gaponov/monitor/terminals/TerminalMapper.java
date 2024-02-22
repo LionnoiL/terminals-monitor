@@ -19,6 +19,9 @@ public class TerminalMapper implements Mapper<Terminal, TerminalDTO> {
         terminal.setIpAddress(source.getIpAddress());
         terminal.setLastUpdate(source.getLastUpdate());
         terminal.setActive(NetUtils.pingAddress(terminal.getIpAddress()));
+        terminal.setTotalHeapSize(source.getTotalHeapSize());
+        terminal.setFreeHeapSize(source.getFreeHeapSize());
+        terminal.setUsedHeapSize(source.getUsedHeapSize());
         return terminal;
     }
 
@@ -32,6 +35,9 @@ public class TerminalMapper implements Mapper<Terminal, TerminalDTO> {
         terminal.setCashRegisterName(source.getCashRegisterName());
         terminal.setIpAddress(source.getIpAddress());
         terminal.setLastUpdate(source.getLastUpdate());
+        terminal.setTotalHeapSize(source.getTotalHeapSize());
+        terminal.setFreeHeapSize(source.getFreeHeapSize());
+        terminal.setUsedHeapSize(source.getUsedHeapSize());
         return terminal;
     }
 }

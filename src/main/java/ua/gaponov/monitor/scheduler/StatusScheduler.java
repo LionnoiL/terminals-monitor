@@ -26,6 +26,9 @@ public class StatusScheduler {
                 terminal.setArmId(terminalInfo.getArmId());
                 terminal.setShopName(terminalInfo.getShopName());
                 terminal.setCashRegisterName(terminalInfo.getCashRegisterName());
+                terminal.setTotalHeapSize(Long.valueOf(terminalInfo.getTotalHeapSize()));
+                terminal.setFreeHeapSize(Long.valueOf(terminalInfo.getFreeHeapSize()));
+                terminal.setUsedHeapSize(Long.valueOf(terminalInfo.getUsedHeapSize()));
                 log.debug("terminal with ip:{} active",terminal.getIpAddress());
             } else {
                 log.debug("terminal with ip:{} not active",terminal.getIpAddress());
