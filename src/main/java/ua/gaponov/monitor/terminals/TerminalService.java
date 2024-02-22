@@ -72,6 +72,9 @@ public class TerminalService {
                 terminal.setShopName(terminalInfo.getShopName());
                 terminal.setCashRegisterName(terminalInfo.getCashRegisterName());
                 terminal.setIpAddress(address);
+                terminal.setTotalHeapSize(Long.valueOf(terminalInfo.getTotalHeapSize()));
+                terminal.setFreeHeapSize(Long.valueOf(terminalInfo.getFreeHeapSize()));
+                terminal.setUsedHeapSize(Long.valueOf(terminalInfo.getUsedHeapSize()));
                 terminalRepository.save(terminal);
             }
         }

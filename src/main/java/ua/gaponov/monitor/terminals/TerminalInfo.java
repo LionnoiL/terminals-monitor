@@ -20,6 +20,12 @@ public class TerminalInfo {
     private String cashRegisterName;
     @JsonProperty("last_update")
     private String lastUpdate;
+    @JsonProperty("total_heap_size")
+    private String totalHeapSize;
+    @JsonProperty("free_heap_size")
+    private String freeHeapSize;
+    @JsonProperty("used_heap_size")
+    private String usedHeapSize;
 
     @Override
     public String toString() {

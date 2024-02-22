@@ -33,4 +33,13 @@ public class Terminal {
 
     @Column(name = "last_update")
     private String lastUpdate;
+
+    @Column(name = "total_heap_size")
+    private Long totalHeapSize;
+
+    @Column(name = "free_heap_size")
+    private Long freeHeapSize;
+
+    @Column(name = "used_heap_size")
+    private Long usedHeapSize;
 }
