@@ -63,6 +63,79 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-edit-prop">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <form  action="/terminals/properties/edit" method="post" th:object="${properties}" id="edit-prop-form">
+
+                    <input type="text" class="form-control"  th:field="${properties.terminalId}" hidden>
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Редагування налаштувань терміналу</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Назва магазину</label>
+                        <input type="text" class="form-control" th:field="${properties.shopName}">
+                    </div>
+                    <div class="form-group">
+                        <label>Адреса магазину</label>
+                        <input type="text" class="form-control" th:field="${properties.shopAddress}">
+                    </div>
+                    <div class="form-group">
+                        <label>Назва каси</label>
+                        <input type="text" class="form-control" th:field="${properties.cashRegisterName}">
+                    </div>
+                    <div class="form-group">
+                        <label>Назва РРО</label>
+                        <input type="text" class="form-control" th:field="${properties.fiscalName}">
+                    </div>
+                    <div class="form-group">
+                        <label>Токен РРО</label>
+                        <input type="text" class="form-control" th:field="${properties.fiscalToken}">
+                    </div>
+                    <div class="form-group">
+                        <label>IP адреса РРО</label>
+                        <input type="text" class="form-control" th:field="${properties.fiscalIp}">
+                    </div>
+                    <div class="form-group">
+                        <label>Сума внесення при відкриті зміни на РРО</label>
+                        <input type="number" class="form-control" th:field="${properties.fiscalAutoPlusSum}">
+                    </div>
+                    <div class="form-group">
+                        <label>ProstoPay токен</label>
+                        <input type="text" class="form-control" th:field="${properties.prostopayToken}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Інтервал обміну</label>
+                        <input type="number" class="form-control" th:field="${properties.exchangeIntervalMin}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" th:checked="${properties.exchangeEnable}" th:field="${properties.exchangeEnable}">
+                            Обмін включений
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Відмова</button>
+                    <button type="button" id="save-prop-button" th:attr="data-terminal-id=${terminal.armId}" class="btn btn-success">Зберегти</button>
+                </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
     <div class="content-wrapper content">
 
         <form  action="/terminals/edit" method="post" th:object="${terminal}" id="edit-form">
@@ -113,6 +186,9 @@
                     <button type="button" class="btn btn-primary m-1" th:onclick="|window.location.href='/terminals/${terminal.armId}/command?name=EXPORT';|">Вивантажити документи</button>
                     <button type="button" class="btn btn-primary m-1" th:onclick="|window.location.href='/terminals/${terminal.armId}/command?name=LOG';|">Вивантажити лог</button>
                 </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#modal-edit-prop">Редагувати налаштування</button>
+                </div>
             </div>
         </div>
 
@@ -123,6 +199,10 @@
         $(document).ready(function() {
             $("#save-button").click(function() {
                 $("#edit-form").submit();
+            });
+
+            $("#save-prop-button").click(function() {
+                $("#edit-prop-form").submit();
             });
 
             $("#delete-button").click(function() {

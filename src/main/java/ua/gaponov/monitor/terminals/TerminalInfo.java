@@ -11,7 +11,7 @@ import lombok.*;
 public class TerminalInfo {
 
     @JsonProperty("arm_id")
-    private Long armId;
+    private int armId;
     @JsonProperty("name")
     private String name;
     @JsonProperty("shop_name")

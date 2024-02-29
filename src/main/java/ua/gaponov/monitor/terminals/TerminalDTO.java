@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TerminalDTO {
 
-    private Long id;
-    private Long armId;
+    private int id;
+    private int armId;
     private String shopName;
     private String cashRegisterName;
     private String ipAddress;

@@ -7,16 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import ua.gaponov.monitor.terminals.TerminalCommands;
+import ua.gaponov.monitor.terminals.TerminalCommand;
 import ua.gaponov.monitor.terminals.TerminalInfo;
 
 import java.net.InetAddress;
 import java.time.Duration;
 
+import static ua.gaponov.monitor.utils.JsonConverter.GSON;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NetUtils {
 
-    private static final int TIMEOUT_IN_MILLISECONDS = 500; // Укажите нужный вам таймаут в миллисекундах
+    private static final int TIMEOUT_IN_MILLISECONDS = 10000;
 
     private static final RestTemplate restTemplate;
 
@@ -39,10 +41,21 @@ public class NetUtils {
         }
     }
 
-    public static boolean sendSimpleCommand(String url, TerminalCommands command) {
+    public static boolean sendSimpleCommand(String url, TerminalCommand command) {
+        String jsonCommandTemplate = """
+                {
+                    "command": "%s",
+                    "requestString": ""
+                }
+                """;
+        String jsonCommand = String.format(
+                jsonCommandTemplate,
+                command.toString()
+        );
+
         try {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,
-                    command.toString(),
+                    jsonCommand,
                     String.class,
                     timeout.toMillis());
             HttpStatusCode statusCode = responseEntity.getStatusCode();
@@ -56,6 +69,40 @@ public class NetUtils {
             }
         } catch (RestClientException e) {
             return false;
+        }
+    }
+
+    public static CommandResponse sendCommand(String url, TerminalCommand command, String json) {
+        String jsonCommandTemplate = """
+                {
+                    "command": "%s",
+                    "requestString": "%s"
+                }
+                """;
+        String jsonCommand = String.format(
+                jsonCommandTemplate,
+                command.toString(),
+                json
+        );
+
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,
+                    jsonCommand,
+                    String.class,
+                    timeout.toMillis());
+            String responseBody = responseEntity.getBody();
+            CommandResult commandResult = GSON.fromJson(responseBody, CommandResult.class);
+            HttpStatusCode statusCode = responseEntity.getStatusCode();
+            int statusValue = statusCode.value();
+
+            if (statusCode.is2xxSuccessful()) {
+                return CommandResponse.of(true, commandResult.getResult(), commandResult.getMessage());
+            } else {
+                System.err.println("Request failed with status code: " + statusValue);
+                return CommandResponse.of(false, "", commandResult.getMessage());
+            }
+        } catch (RestClientException e) {
+            return CommandResponse.of(false, "", "помилка відправки запиту");
         }
     }
 

@@ -17,10 +17,10 @@ public class Terminal {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "arm_id", unique = true)
-    private Long armId;
+    private int armId;
 
     @Column(name = "shop_name")
     private String shopName;

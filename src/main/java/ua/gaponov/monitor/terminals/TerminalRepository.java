@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TerminalRepository extends JpaRepository<Terminal, Long> {
+public interface TerminalRepository extends JpaRepository<Terminal, Integer> {
 
     List<Terminal> findAllByOrderByArmId();
 
-    Optional<Terminal> findByArmId(Long id);
+    Optional<Terminal> findByArmId(int id);
 }
