@@ -17,9 +17,7 @@ public class AddressService {
 
         for (int i = 2; i < 254; i++) {
             String address = networkNumber + i;
-            //if (NetUtils.pingAddress(address)) {
-                result.add(address);
-            //}
+            result.add(address);
         }
 
         return result;

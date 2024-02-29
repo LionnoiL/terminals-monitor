@@ -3,14 +3,17 @@ package ua.gaponov.monitor.terminals;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.gaponov.monitor.errors.NotFoundException;
 import ua.gaponov.monitor.net.AddressService;
+import ua.gaponov.monitor.net.CommandResponse;
 import ua.gaponov.monitor.net.NetUtils;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
+import static ua.gaponov.monitor.utils.JsonConverter.GSON;
 
 @Slf4j
 @Service
@@ -38,12 +41,12 @@ public class TerminalService {
         terminalRepository.save(terminal);
     }
 
-    public Terminal getByArmId(Long id) throws NotFoundException {
+    public Terminal getByArmId(int id) throws NotFoundException {
         return terminalRepository.findByArmId(id).orElseThrow(() ->
                 new NotFoundException("Терміналу з armId: [" + id + "] не існує в базі!"));
     }
 
-    public TerminalDTO getTerminalDtoByArmId(Long id) {
+    public TerminalDTO getTerminalDtoByArmId(int id) {
         return terminalMapper.mapEntityToDto(getByArmId(id));
     }
 
@@ -84,7 +87,29 @@ public class TerminalService {
         terminalRepository.delete(terminal);
     }
 
-    public boolean executeCommand(Terminal terminal, TerminalCommands name) {
+    public boolean executeSimpleCommand(Terminal terminal, TerminalCommand name) {
         return NetUtils.sendSimpleCommand("http://" + terminal.getIpAddress() + ":5555/command", name);
+    }
+
+    public static boolean setProperties(Terminal terminal, TerminalProperties properties) {
+        String json = GSON.toJson(properties);
+        String escapedJsonString = StringEscapeUtils.escapeJson(json);
+        CommandResponse commandResponse = NetUtils.sendCommand(
+                "http://" + terminal.getIpAddress() + ":5555/command",
+                TerminalCommand.SET_PROPERTY,
+                escapedJsonString
+        );
+        return commandResponse.isOk();
+    }
+
+    public static TerminalProperties getProperties(Terminal terminal) {
+
+        CommandResponse commandResponse = NetUtils.sendCommand(
+                "http://" + terminal.getIpAddress() + ":5555/command",
+                TerminalCommand.GET_PROPERTY,
+                ""
+        );
+        String response = commandResponse.getResponse();
+        return GSON.fromJson(response, TerminalProperties.class);
     }
 }

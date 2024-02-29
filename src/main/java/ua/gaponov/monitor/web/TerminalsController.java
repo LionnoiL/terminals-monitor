@@ -1,7 +1,6 @@
 package ua.gaponov.monitor.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,14 +11,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import ua.gaponov.monitor.errors.ErrorMessages;
 import ua.gaponov.monitor.errors.InfoMessages;
 import ua.gaponov.monitor.errors.NotFoundException;
-import ua.gaponov.monitor.errors.ValidationException;
-import ua.gaponov.monitor.terminals.Terminal;
-import ua.gaponov.monitor.terminals.TerminalCommands;
-import ua.gaponov.monitor.terminals.TerminalDTO;
-import ua.gaponov.monitor.terminals.TerminalService;
+import ua.gaponov.monitor.terminals.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RequestMapping("/terminals")
 @RequiredArgsConstructor
@@ -51,10 +45,17 @@ public class TerminalsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView getEditTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
                                         @ModelAttribute("infoMessages") InfoMessages infoMessages,
-                                        @RequestParam(value = "id") Long id) {
+                                        @RequestParam(value = "id") int id) {
         ModelAndView result = new ModelAndView("terminals/edit");
         TerminalDTO terminal = terminalService.getTerminalDtoByArmId(id);
+        TerminalProperties properties = TerminalService.getProperties(terminalService.getByArmId(id));
+        if (properties == null){
+            properties = new TerminalProperties();
+            properties.setTerminalId(id);
+            errorsMessages.addError("Немає зв'язку з терміналом. Зберегти налаштування не можливо.");
+        }
         result.addObject("terminal", terminal);
+        result.addObject("properties", properties);
         return result;
     }
 
@@ -62,7 +63,7 @@ public class TerminalsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String postUpdateTerminal(@ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
                                      @ModelAttribute("infoMessages") InfoMessages infoMessages,
-                                           @ModelAttribute("terminal") TerminalDTO terminal) {
+                                     @ModelAttribute("terminal") TerminalDTO terminal) {
         try {
             terminalService.getTerminalDtoByArmId(terminal.getArmId());
             terminalService.save(terminal);
@@ -71,6 +72,32 @@ public class TerminalsController {
             return "terminals/edit";
         }
         return "redirect:/terminals/list";
+    }
+
+    @PostMapping("/properties/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public RedirectView postUpdatePropertiesTerminal(RedirectAttributes redirectAttributes,
+                                     @ModelAttribute("errorsMessages") ErrorMessages errorsMessages,
+                                     @ModelAttribute("infoMessages") InfoMessages infoMessages,
+                                     @ModelAttribute("properties") TerminalProperties properties) {
+        boolean ok;
+        try {
+            Terminal terminal = terminalService.getByArmId(properties.getTerminalId());
+            ok = TerminalService.setProperties(terminal, properties);
+        } catch (NotFoundException e){
+            errorsMessages.addError("Терміналу з armId: [" + properties.getTerminalId() + "] не існує в базі!");
+            redirectAttributes.addFlashAttribute("errorsMessages", errorsMessages);
+            ok = false;
+        }
+        if (ok) {
+            infoMessages.addMessage("Налаштування відправленні на термінал");
+            redirectAttributes.addFlashAttribute("infoMessages", infoMessages);
+        } else {
+            errorsMessages.addError("Помилка відправки запиту!");
+            redirectAttributes.addFlashAttribute("errorsMessages", errorsMessages);
+        }
+
+        return new RedirectView("/terminals/edit?id=" + properties.getTerminalId());
     }
 
     @GetMapping("/add")
@@ -99,7 +126,7 @@ public class TerminalsController {
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String postDeleteTerminal(@RequestParam Long id) {
+    public String postDeleteTerminal(@RequestParam int id) {
         Terminal terminal = terminalService.getByArmId(id);
         terminalService.delete(terminal);
         return "redirect:/terminals/list";
@@ -108,9 +135,9 @@ public class TerminalsController {
     @GetMapping("/{id}/command")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RedirectView getCommandTerminal(RedirectAttributes redirectAttributes,
-                                           @PathVariable Long id, @RequestParam TerminalCommands name) {
+                                           @PathVariable int id, @RequestParam TerminalCommand name) {
         Terminal terminal = terminalService.getByArmId(id);
-        boolean ok = terminalService.executeCommand(terminal, name);
+        boolean ok = terminalService.executeSimpleCommand(terminal, name);
         if (!ok) {
             ErrorMessages errorMessages = new ErrorMessages();
             errorMessages.addError("Помилка виконання команди");
