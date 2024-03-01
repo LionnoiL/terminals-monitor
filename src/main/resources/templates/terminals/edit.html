@@ -79,50 +79,89 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Назва магазину</label>
-                        <input type="text" class="form-control" th:field="${properties.shopName}">
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Назва магазину</label>
+                                <input type="text" class="form-control" th:field="${properties.shopName}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Адреса магазину</label>
+                                <input type="text" class="form-control" th:field="${properties.shopAddress}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Адреса магазину</label>
-                        <input type="text" class="form-control" th:field="${properties.shopAddress}">
-                    </div>
+
                     <div class="form-group">
                         <label>Назва каси</label>
                         <input type="text" class="form-control" th:field="${properties.cashRegisterName}">
                     </div>
-                    <div class="form-group">
-                        <label>Назва РРО</label>
-                        <input type="text" class="form-control" th:field="${properties.fiscalName}">
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Назва РРО</label>
+                                <input type="text" class="form-control" th:field="${properties.fiscalName}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Токен РРО</label>
+                                <input type="text" class="form-control" th:field="${properties.fiscalToken}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Токен РРО</label>
-                        <input type="text" class="form-control" th:field="${properties.fiscalToken}">
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>IP адреса РРО</label>
+                                <input type="text" class="form-control" th:field="${properties.fiscalIp}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Сума внесення при відкриті зміни на РРО</label>
+                                <input type="number" class="form-control" th:field="${properties.fiscalAutoPlusSum}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>IP адреса РРО</label>
-                        <input type="text" class="form-control" th:field="${properties.fiscalIp}">
-                    </div>
-                    <div class="form-group">
-                        <label>Сума внесення при відкриті зміни на РРО</label>
-                        <input type="number" class="form-control" th:field="${properties.fiscalAutoPlusSum}">
-                    </div>
+
+
                     <div class="form-group">
                         <label>ProstoPay токен</label>
                         <input type="text" class="form-control" th:field="${properties.prostopayToken}">
                     </div>
 
-                    <div class="form-group">
-                        <label>Інтервал обміну</label>
-                        <input type="number" class="form-control" th:field="${properties.exchangeIntervalMin}">
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Інтервал обміну</label>
+                                <input type="number" class="form-control" th:field="${properties.exchangeIntervalMin}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" th:checked="${properties.exchangeEnable}" th:field="${properties.exchangeEnable}">
+                                    Обмін включений
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
+
                     <div class="form-group">
-                        <label>
-                            <input type="checkbox" th:checked="${properties.exchangeEnable}" th:field="${properties.exchangeEnable}">
-                            Обмін включений
-                        </label>
+                        <div class="form-group">
+                            <label>ID мерчанта за замовчуванням</label>
+                            <input type="number" class="form-control" th:field="${properties.defaultMerchantId}">
+                        </div>
                     </div>
+
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Відмова</button>

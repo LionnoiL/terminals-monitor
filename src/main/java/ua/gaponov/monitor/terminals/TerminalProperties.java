@@ -9,15 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TerminalProperties {
 
-    int terminalId;
-    String shopName;
-    String shopAddress;
-    String cashRegisterName;
-    String fiscalName;
-    String fiscalToken;
-    String fiscalIp;
-    double fiscalAutoPlusSum;
-    String prostopayToken;
-    int exchangeIntervalMin;
-    boolean exchangeEnable;
+    private int terminalId;
+    private String shopName;
+    private String shopAddress;
+    private String cashRegisterName;
+    private String fiscalName;
+    private String fiscalToken;
+    private String fiscalIp;
+    private double fiscalAutoPlusSum;
+    private String prostopayToken;
+    private int exchangeIntervalMin;
+    private boolean exchangeEnable;
+    private int defaultMerchantId;
 }
