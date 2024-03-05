@@ -232,7 +232,23 @@
         </div>
 
 
+        <div class="card m-3" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="card-header">
+                Звіти
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary m-1" th:onclick="|window.location.href='/reports/deletedItems?terminalId=${terminal.armId}';|">Видалені товари</button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
+
+</div>
+
+<div layout:fragment="script" th:remove="tag">
 
     <script>
         $(document).ready(function() {
@@ -262,7 +278,6 @@
             });
         });
     </script>
-
 </div>
 
 </body>
