@@ -232,7 +232,7 @@
         </div>
 
 
-        <div class="card m-3" sec:authorize="hasRole('ROLE_ADMIN')">
+        <div class="card m-3" sec:authorize="hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')">
             <div class="card-header">
                 Звіти
             </div>
