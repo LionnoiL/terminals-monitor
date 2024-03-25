@@ -162,6 +162,39 @@
                         </div>
                     </div>
 
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" th:checked="${properties.sendDocsOnHttpAfterApprove}" th:field="${properties.sendDocsOnHttpAfterApprove}">
+                                    Обмін HTTP включений
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Адреса HTTP сервісу</label>
+                                <input type="text" class="form-control" th:field="${properties.httpServerIp}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Ім'я користувача</label>
+                                <input type="text" class="form-control" th:field="${properties.httpServerLogin}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Пароль</label>
+                                <input type="password" class="form-control" th:field="${properties.httpServerPassword}">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Відмова</button>
